@@ -27,7 +27,7 @@ class Populate_queue():
         self.action = ActionChains(self.driver)
   
         self.log_in()
-        self.navigate_to_list("PARK","sfsaf")
+        self.navigate_to_list("Fors A/S / FORS: PARK / FORS: Grøndrift")
         self.select_tab()
         self.collect_tasks()
 
@@ -52,18 +52,15 @@ class Populate_queue():
         finally:
             pass
 
-    def navigate_to_list(self,profil,Arbejdsgruppe):
-        self.profil = profil
-        self.Arbejdsgruppe = Arbejdsgruppe
+    def navigate_to_list(self,filter):
+        self.filter = filter
 
         while True:
             try:
-                
-                # filter  = self.driver.find_element(By.ID,"navbarChangeClient")
-                filter = WebDriverWait(self.driver,20).until(
+                navbar = WebDriverWait(self.driver,20).until(
                     EC.visibility_of_element_located((By.ID,"navbarChangeClient"))
                     )
-                filter.click()
+                navbar.click()
                 time.sleep(3)
                 string2 = str("javascript:document.getElementById('spMenu').click();")
                 self.driver.execute_script(string2)
@@ -75,27 +72,22 @@ class Populate_queue():
                 self.action.send_keys(Keys.DOWN*2).perform()
                 time.sleep(2)
                 self.action.send_keys(Keys.ENTER).perform()
-                time.sleep(2)
-                # string2 = ("javascript:document.getElementById('changeclientwgchecklist_ms').click();")
-                # self.driver.execute_script(string2)
-                time.sleep(5)
-
+               
                 Grondrift = WebDriverWait(self.driver,10).until(
                     EC.visibility_of_element_located((By.ID,"ui-multiselect-0-changeclientwgchecklist-option-3"))
                 )
                 Grondrift.click()
 
-                time.sleep(5)
+               
                 
                 skift_button = self.driver.find_element(By.ID,"changeClientButton")
                 skift_button.click()
-                time.sleep(3)
-                
-                navbar= self.driver.find_element(By.ID,"navbarChangeClient")
+
+                navbar = self.driver.find_element(By.ID,"navbarChangeClient")
                 print(navbar.text)
 
     
-                if navbar.text =="Fors A/S / FORS: PARK / FORS: Grøndrift":
+                if navbar.text == filter:
                     break
                 else:
                     True
@@ -104,7 +96,6 @@ class Populate_queue():
                 print("time up")
                 skift_button = self.driver.find_element(By.ID,"changeClientButton")
                 skift_button.click()
-                
                 True
 
     def select_tab(self):
