@@ -56,39 +56,56 @@ class Populate_queue():
         self.profil = profil
         self.Arbejdsgruppe = Arbejdsgruppe
 
-        try:
+        while True:
+            try:
+                
+                # filter  = self.driver.find_element(By.ID,"navbarChangeClient")
+                filter = WebDriverWait(self.driver,20).until(
+                    EC.visibility_of_element_located((By.ID,"navbarChangeClient"))
+                    )
+                filter.click()
+                time.sleep(3)
+                string2 = str("javascript:document.getElementById('spMenu').click();")
+                self.driver.execute_script(string2)
+
+                time.sleep(5)
+
             
-            # filter  = self.driver.find_element(By.ID,"navbarChangeClient")
-            filter = WebDriverWait(self.driver,20).until(
-                EC.visibility_of_element_located((By.ID,"navbarChangeClient"))
+                self.action.send_keys(Keys.DELETE).perform()
+                self.action.send_keys(Keys.DOWN*2).perform()
+                time.sleep(2)
+                self.action.send_keys(Keys.ENTER).perform()
+                time.sleep(2)
+                # string2 = ("javascript:document.getElementById('changeclientwgchecklist_ms').click();")
+                # self.driver.execute_script(string2)
+                time.sleep(5)
+
+                Grondrift = WebDriverWait(self.driver,10).until(
+                    EC.visibility_of_element_located((By.ID,"ui-multiselect-0-changeclientwgchecklist-option-3"))
                 )
-            filter.click()
+                Grondrift.click()
 
+                time.sleep(5)
+                
+                skift_button = self.driver.find_element(By.ID,"changeClientButton")
+                skift_button.click()
+                time.sleep(3)
+                
+                navbar= self.driver.find_element(By.ID,"navbarChangeClient")
+                print(navbar.text)
 
-            element1= self.driver.find_element_by_xpath("""//*[@id="spMenu"]""")
-            print(self.driver.execute_script("arguments[0].getText;",element1))
+    
+                if navbar.text =="Fors A/S / FORS: PARK / FORS: Grøndrift":
+                    break
+                else:
+                    True
 
-            string1 = str("javascript:document.getElementById('spMenu').click();")
-            self.driver.execute_script(string1)
-
-
-            time.sleep(5)
-            self.action.send_keys(Keys.DELETE).perform()
-            self.action.send_keys(Keys.DOWN*2).perform()
-            time.sleep(2)
-            self.action.send_keys(Keys.ENTER).perform()
-            time.sleep(2)
-            # string2 = ("javascript:document.getElementById('changeclientwgchecklist_ms').click();")
-            # self.driver.execute_script(string2)
-            time.sleep(5)
-            opt = self.driver.find_element(By.ID,"ui-multiselect-0-changeclientwgchecklist-option-3")
-            opt.click()
-            time.sleep(5)
-
-            button = self.driver.find_element(By.ID,"changeClientButton")
-            button.click()
-        finally:
-            pass
+            except TimeoutException:
+                print("time up")
+                skift_button = self.driver.find_element(By.ID,"changeClientButton")
+                skift_button.click()
+                
+                True
 
     def select_tab(self):
         try:
@@ -142,4 +159,4 @@ class Populate_queue():
 
             
 if __name__ == "__main__" :
-    queue = Populate_queue("")
+    queue = Populate_queue()
