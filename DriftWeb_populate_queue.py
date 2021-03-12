@@ -5,15 +5,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import ElementNotInteractableException, TimeoutException
+from selenium.common.exceptions import ElementNotInteractableException, TimeoutException,NoSuchElementException,StaleElementReferenceException
 from selenium.webdriver.support.select import Select
 
 
 # from selenium.webdriver.support.ui import Select
 
 import time
-
-
 
 class Populate_queue():
     def __init__(self,login,password):
@@ -22,6 +20,7 @@ class Populate_queue():
         
         options = webdriver.ChromeOptions()
         options.add_argument("--start-maximized")
+
         self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://preprod.dw3.dk/")
         self.action = ActionChains(self.driver)
@@ -29,7 +28,8 @@ class Populate_queue():
         self.log_in()
         self.navigate_to_list("Fors A/S / FORS: PARK / FORS: Grøndrift")
         self.select_tab()
-        self.collect_tasks()
+        tasks = self.collect_tasks()
+        print(tasks)
 
     
     def log_in(self):
@@ -49,11 +49,14 @@ class Populate_queue():
             )
             print("login success")
 
-        finally:
-            pass
+        except (NoSuchElementException,TimeoutException) as err:
+            if self.driver.find_element(By.XPATH,"/html/body/div[2]/div/div[2]/div/div[2]/form/div/p[1]"):
+                print("wrong credentials")
+
 
     def navigate_to_list(self,filter):
         self.filter = filter
+        print("Artur")
 
         while True:
             try:
@@ -77,23 +80,19 @@ class Populate_queue():
                     EC.visibility_of_element_located((By.ID,"ui-multiselect-0-changeclientwgchecklist-option-3"))
                 )
                 Grondrift.click()
-
-               
-                
+  
                 skift_button = self.driver.find_element(By.ID,"changeClientButton")
                 skift_button.click()
-
                 navbar = self.driver.find_element(By.ID,"navbarChangeClient")
                 print(navbar.text)
 
-    
                 if navbar.text == filter:
                     break
                 else:
                     True
 
-            except TimeoutException:
-                print("time up")
+            except (TimeoutException,StaleElementReferenceException) as err:
+                print(err)
                 skift_button = self.driver.find_element(By.ID,"changeClientButton")
                 skift_button.click()
                 True
@@ -112,42 +111,29 @@ class Populate_queue():
                 
             Godkendt.click()
 
-        except:
-            # self.driver.find_element(By.ID,"taskToggleNavigation").click()
-            # time.sleep(2)
-            # self.action.move_to_element(Godkendt)
-            self.driver.find_element(By.ID,"nav_task_6").click()
-            
-
-        finally:
+        except NoSuchElementException as err:
+            print(err.msg)
             pass
-
+            
     def collect_tasks(self):
         try:
             row = 1
-            T_numbers =[]
+            t_numbers =[]
             while True:
             
                 task = WebDriverWait(self.driver,20).until(
                     EC.presence_of_element_located((By.XPATH,f"""//*[@id="list-datatable"]/tbody/tr[{row}]/td[2]"""))
                 )
-
-                # task = self.driver.find_element(By.XPATH,f"""//*[@id="list-datatable"]/tbody/tr[{row}]/td[2]""")
-            
-                t =task.get_attribute("innerText")
-                print(t)
-    
-                T_numbers.append(t)
-                
+                t_number =task.get_attribute("innerText")
+                t_numbers.append(t_number)
                 row += 1
 
-            
 
         except TimeoutException:
-            print("No more element")
-            print(T_numbers)
+            print("No more elements")
+        
 
-
-            
+        return t_numbers
+          
 if __name__ == "__main__" :
-    queue = Populate_queue()
+    queue = Populate_queue(")
