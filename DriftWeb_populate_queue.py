@@ -7,6 +7,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import ElementNotInteractableException, TimeoutException,NoSuchElementException,StaleElementReferenceException
 from selenium.webdriver.support.select import Select
+import orchestrator_request
+import datetime
+import sys
 
 
 # from selenium.webdriver.support.ui import Select
@@ -28,8 +31,10 @@ class Populate_queue():
         self.log_in()
         self.navigate_to_list("Fors A/S / FORS: PARK / FORS: Grøndrift")
         self.select_tab()
-        tasks = self.collect_tasks()
-        print(tasks)
+        self.tasks = self.collect_tasks()
+        print(self.tasks)
+        self.add_toQueue(self.tasks)
+       
 
     
     def log_in(self):
@@ -134,6 +139,30 @@ class Populate_queue():
         
 
         return t_numbers
+
+    def add_toQueue(self,tasks):
+        self.tasks = tasks
+
+        try:
+            access_token = orchestrator_request.Get_token("Artur","8DEv1AMNXczW3y4U15LL3jYf62jK93n5",
+            "MipuhkUYB5eN_fdW3dAzE0mK2RzwzKUy_CiE_HhBv7JSX")
+            print(access_token)
+
+        except Exception as err:
+            print(repr(err))
+
+
+        for i in tasks:
+            try:
+                content = {"T_number":i}
+                orchestrator_request.Add_queue_item("burki","Artur","1269","DriftWeb",access_token,content)
+                
+            except Exception as err:
+                print(sys.exc_info())
+                continue
+
+
           
 if __name__ == "__main__" :
-    queue = Populate_queue(")
+    queue = Populate_queue("stefan.roi@digitalworkforce.com","floatuivo")
+
