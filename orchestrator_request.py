@@ -59,13 +59,4 @@ def Add_queue_item(Account_logical_name,Tenant_logical_name,OrganizationUnitId,Q
     except:
         print(sys.exc_info())
 
-if __name__ == "__main__":
-    access_token = Get_token("Artur","8DEv1AMNXczW3y4U15LL3jYf62jK93n5",
-    "MipuhkUYB5eN_fdW3dAzE0mK2RzwzKUy_CiE_HhBv7JSX")
-    Content = Content = {"T_number":"T1993","Name":"Artur"}
-    Add_queue_item("burki","Artur","1269","DriftWeb",access_token,Content)
-
-
-
-
     
