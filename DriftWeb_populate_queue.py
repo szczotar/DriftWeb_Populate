@@ -10,20 +10,20 @@ from selenium.webdriver.support.select import Select
 import orchestrator_request
 import datetime
 import sys
-
+from getpass import getpass
 
 # from selenium.webdriver.support.ui import Select
 
 import time
 
 class Populate_queue():
-    def __init__(self,login,password):
-        self.password = password
-        self.login = login
+    def __init__(self):
+        self.login = input("Username: ")
+        self.password = getpass("Password: ")
+        
         
         options = webdriver.ChromeOptions()
         options.add_argument("--start-maximized")
-
         self.driver = webdriver.Chrome(options=options)
         self.driver.get("https://preprod.dw3.dk/")
         self.action = ActionChains(self.driver)
@@ -57,6 +57,8 @@ class Populate_queue():
         except (NoSuchElementException,TimeoutException) as err:
             if self.driver.find_element(By.XPATH,"/html/body/div[2]/div/div[2]/div/div[2]/form/div/p[1]"):
                 print("wrong credentials")
+                sys.exit()
+                
 
 
     def navigate_to_list(self,filter):
