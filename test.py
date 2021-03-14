@@ -41,7 +41,7 @@ driver.get("https://preprod.dw3.dk/")
 while True:
     try:
         WebDriverWait(driver,10).until(
-        EC.presence_of_element_located((By.ID,"usernamedsd")))
+        EC.presence_of_element_located((By.ID,"username)))
         # login_input.send_keys("stefan.roi@digitalworkforce.com")
         # password_input = driver.find_element(By.ID,"password")
         # password_input.send_keys("floatuivo")

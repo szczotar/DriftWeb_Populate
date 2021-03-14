@@ -164,5 +164,5 @@ class Populate_queue():
 
           
 if __name__ == "__main__" :
-    queue = Populate_queue("stefan.roi@digitalworkforce.com","floatuivo")
+    queue = Populate_queue()
 
