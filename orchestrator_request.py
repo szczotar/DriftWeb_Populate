@@ -1,10 +1,24 @@
 import requests
 import json
 import sys
+import logging
+import logging.handlers
+import os
+import datetime
+
+
+handler = logging.handlers.WatchedFileHandler(
+    os.environ.get("LOGFILE", r"C:\Users\admin\Desktop\Env\new_env\DriftWeb_populate\logs.txt"))
+formatter = logging.Formatter(logging.BASIC_FORMAT)
+handler.setFormatter(formatter)
+root = logging.getLogger()
+root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
+root.addHandler(handler)
+ 
+
+
 def Get_token(Tenant_logical_name,Client_ID,User_key):
-
     url = "https://account.uipath.com/oauth/token"
-
     try:
 
         head = {
@@ -23,9 +37,12 @@ def Get_token(Tenant_logical_name,Client_ID,User_key):
             raise Exception("Request failed") 
         else:
             access_token = "Bearer " + request.json()['access_token']
+            logging.info(datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S" + 
+            " access token generated"))
             return access_token
 
     except Exception as err:
+        logging.exception(datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S"))
         print(repr(err))
 
     
@@ -50,13 +67,17 @@ def Add_queue_item(Account_logical_name,Tenant_logical_name,OrganizationUnitId,Q
         request = requests.post(url = base_url+task_url,headers = head,json=queueItem)
         if request.status_code != 201:
             raise Exception("Request failed") 
-        else:
-            return(print("Item successfuly added"))
-
+        else:     
+            logging.info("Item successfuly added. Transaction ID: " +request.json()['Key'])
+            return(print(datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S") +
+            " Item successfuly added. Transaction ID: " +request.json()['Key']))
+            
     except Exception as err:
+        logging.exception(datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S") +" Bad request")
         print(sys.exc_info())
 
     except:
+        logging.exception(datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S") +" Bad request")
         print(sys.exc_info())
 
-    
+         
