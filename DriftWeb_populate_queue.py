@@ -66,7 +66,7 @@ class Populate_queue():
             if self.driver.find_element(By.XPATH,"/html/body/div[2]/div/div[2]/div/div[2]/form/div/p[1]"):
                 logging.exception(datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S") + " wrong credentials")
                 print("wrong credentials")
-                
+                self.driver.close()
                 
     def navigate_to_list(self,filter):
         self.filter = filter   
