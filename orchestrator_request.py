@@ -7,13 +7,16 @@ import os
 import datetime
 
 
-handler = logging.handlers.WatchedFileHandler(
-    os.environ.get("LOGFILE", r"C:\Users\admin\Desktop\Env\new_env\DriftWeb_populate\logs.txt"))
-formatter = logging.Formatter(logging.BASIC_FORMAT)
-handler.setFormatter(formatter)
-root = logging.getLogger()
-root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
-root.addHandler(handler)
+
+if __name__ == "__main__" :
+
+    handler = logging.handlers.WatchedFileHandler(
+        os.environ.get("LOGFILE", r"C:\Users\admin\Desktop\Env\new_env\DriftWeb_populate\logs.txt"))
+    formatter = logging.Formatter(logging.BASIC_FORMAT)
+    handler.setFormatter(formatter)
+    root = logging.getLogger()
+    root.setLevel(os.environ.get("LOGLEVEL", "INFO"))
+    root.addHandler(handler)
  
 
 

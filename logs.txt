@@ -1,0 +1,33 @@
+ERROR:root:15-03-2021 23:24:31 wrong credentials
+Traceback (most recent call last):
+  File "c:/Users/admin/Desktop/Env/new_env/DriftWeb_populate/DriftWeb_populate_queue.py", line 59, in log_in
+    exit_icon = WebDriverWait(self.driver,10).until(
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python38-32\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+ERROR:root:15-03-2021 23:33:04 wrong credentials
+Traceback (most recent call last):
+  File "DriftWeb_populate_queue.py", line 59, in log_in
+    exit_icon = WebDriverWait(self.driver,10).until(
+  File "C:\Users\admin\AppData\Local\Programs\Python\Python38-32\lib\site-packages\selenium\webdriver\support\wait.py", line 80, in until
+    raise TimeoutException(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: 
+
+INFO:root:15-03-2021 23:37:07 login success
+INFO:root:15-03-2021 23:37:54 data collected: ['T17651', 'T13365', 'T13104', 'T13102', 'T13092', 'T13086', 'T13081', 'T13073', 'T13072', 'T13061', 'T12121', 'T12043']
+INFO:root:15-03-2021 23:37:55 access token generated
+INFO:root:Item successfuly added. Transaction ID: 83cf5c71-35f4-46d9-9556-316f5e83ca9f
+INFO:root:Item successfuly added. Transaction ID: 3c6aab28-9f96-438c-8f71-d33c5966f700
+INFO:root:Item successfuly added. Transaction ID: c2e0bf63-803c-4ee5-afd6-3db7dd177dec
+INFO:root:Item successfuly added. Transaction ID: 0bf55b97-53ca-4c0b-ae30-0c38eb86359e
+INFO:root:Item successfuly added. Transaction ID: 49373bde-b440-487d-897f-6b66228b1ca7
+INFO:root:Item successfuly added. Transaction ID: 1522e5d0-2acc-497c-b260-a1828d5fd4c5
+INFO:root:Item successfuly added. Transaction ID: 27feccdd-8f14-492a-a8a1-239ad6fb44c7
+INFO:root:Item successfuly added. Transaction ID: 7c1b3dd1-fbed-4a72-85ce-4bfed7711be8
+INFO:root:Item successfuly added. Transaction ID: f64e26db-d247-43ec-8f19-5b01bec55e7a
+INFO:root:Item successfuly added. Transaction ID: 60484951-af0a-4e67-83c7-1b94eb3c1f0a
+INFO:root:Item successfuly added. Transaction ID: aa102b31-e1ee-4273-89c7-48ab5882ea42
+INFO:root:Item successfuly added. Transaction ID: 1935e242-03bc-48fc-bef7-5cf58b620252
+INFO:root:15-03-2021 23:37:59 Browser Closed
+INFO:root:15-03-2021 23:37:59 populate execution finished
